@@ -7,6 +7,9 @@
         {% for test in tests %}
             <div>
                 <h3>{{ test.name }}</h3>
+                {% for tag in test.tags %}
+                    <p>{{ tag.name }}</p>
+                {% endfor %}
             </div>
         {% endfor %}
     </div>

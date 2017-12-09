@@ -4,6 +4,7 @@
 namespace App\DataFixtures;
 
 
+use App\Entity\Tag;
 use App\Entity\Test;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -14,29 +15,57 @@ class AppFixtures extends Fixture
     //todo Learn how to use nelmio/alice 3 in Symfony 4 and use it
     public function load(ObjectManager $manager)
     {
-        foreach ($this->testNames() as $testName){
+        $tags = [];
+        foreach ($this->tagNames() as $tagName) {
+            $tag = new Tag();
+            $tag->setName($tagName);
+            $manager->persist($tag);
+
+            $tags[] = $tag;
+        }
+
+        foreach ($this->testNames() as $testName) {
             $test = new Test();
             $test->setName($testName);
+
+            $test->addTag($tags[array_rand($tags)]);
+            $test->addTag($tags[array_rand($tags)]);
+            $test->addTag($tags[array_rand($tags)]);
+
             $manager->persist($test);
         }
+
         $manager->flush();
     }
 
-    public function testNames(){
-        $tests = [
-            'Арифметика',
-            'Электродинамика',
-            'Основы космических полётов',
-            'Геометрия',
-            'Психология',
-            'Физика',
-            'Астрономия',
-            'История',
-            'История искусств',
-            'Музыкальная теория',
-            'PHP и MySQL',
-            'Основы GIT'
+    public function testNames()
+    {
+        return [
+            'Electrodynamics',
+            'Astronomy',
+            'Geometry',
+            'Psychology',
+            'Physics',
+            'Algorithms',
+            'History',
+            'Art history',
+            'Music theory',
+            'PHP & MySQL',
+            'GIT basics',
+            '101 programming'
         ];
-        return $tests;
+    }
+
+    public function tagNames()
+    {
+        return [
+            'easy',
+            'hard',
+            'excellent',
+            'long',
+            'fast',
+            'boring',
+            'tedious',
+        ];
     }
 }
