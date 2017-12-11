@@ -1,16 +1,57 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>TestHub</h1>
-    <div>
-        <h2>Попробовать свои силы</h2>
-        {% for test in tests %}
-            <div>
-                <h3>{{ test.name }}</h3>
-                {% for tag in test.tags %}
-                    <p>{{ tag.name }}</p>
-                {% endfor %}
+    <div class="row">
+        <div class="col">
+            <h1>TestHub</h1>
+        </div>
+        <div class="col">
+            <div class="row float-right">
+                <div class="col ">
+                    <a class="btn btn-info" href="">Sign In</a>
+                    <a class="btn btn-info" href="">Sign Up</a>
+                </div>
             </div>
-        {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <h2>Chose test</h2>
+            {% for test in tests %}
+                <div class="row">
+                    <div class="col">
+                        <a href="">
+                            <h4>{{ test.name }}</h4>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <div class="float-right">2600 / 12500</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {% for tag in test.tags %}
+                            <a href="#" class="badge badge-info">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col mt-4">
+                    <a href="" class="btn btn-outline-primary">All tests</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h2>About</h2>
+            <p>
+                TestHub - easy test manager. Test yourself or create new test for your purpose
+            </p>
+            <p>
+                Join TestHub!
+            </p>
+            <a class="d-block" href="">New test</a>
+            <a class="d-block" href="">About TestHub</a>
+        </div>
     </div>
 {% endblock %}
