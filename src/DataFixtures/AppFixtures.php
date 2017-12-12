@@ -28,6 +28,14 @@ class AppFixtures extends Fixture
             $test = new Test();
             $test->setName($testName);
 
+            //todo it's creepy
+            for ($i =1; $i<=rand(1,20);$i++){
+                $test->incFailedAttempts();
+            }
+            for ($i =1; $i<=rand(1,20);$i++){
+                $test->incSuccessAttempts();
+            }
+
             $test->addTag($tags[array_rand($tags)]);
             $test->addTag($tags[array_rand($tags)]);
             $test->addTag($tags[array_rand($tags)]);

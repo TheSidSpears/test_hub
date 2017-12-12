@@ -11,13 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="main")
      */
     public function homepageAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tests = $em->getRepository(Test::class)->findAll();
+        $tests = $em->getRepository(Test::class)->findFivePopularPerMonth();
 
         return $this->render('main/homepage.html.twig', [
             'tests' => $tests

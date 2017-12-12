@@ -25,6 +25,16 @@ class Test
     private $name;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $failedAttempts;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $successAttempts;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="tests")
      */
     private $tags;
@@ -47,6 +57,31 @@ class Test
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getFailedAttempts()
+    {
+        return $this->failedAttempts;
+    }
+
+    public function incFailedAttempts()
+    {
+        ++$this->failedAttempts;
+    }
+
+    public function getSuccessAttempts()
+    {
+        return $this->successAttempts;
+    }
+
+    public function incSuccessAttempts()
+    {
+        ++$this->successAttempts;
+    }
+
+    public function getAllAttempts()
+    {
+        return $this->failedAttempts + $this->successAttempts;
     }
 
     /**

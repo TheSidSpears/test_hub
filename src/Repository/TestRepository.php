@@ -13,16 +13,16 @@ class TestRepository extends ServiceEntityRepository
         parent::__construct($registry, Test::class);
     }
 
-    /*
-    public function findBySomething($value)
+
+    public function findFivePopularPerMonth()
     {
-        return $this->createQueryBuilder('t')
-            ->where('t.something = :value')->setParameter('value', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('test')
+            //todo per Month
+            ->orderBy('test.successAttempts+test.failedAttempts', 'DESC')
+            //->orderBy('test.failedAttempts', 'DESC')
+            ->setMaxResults(5)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
 }
