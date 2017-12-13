@@ -11,17 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 class TestsController extends Controller
 {
     /**
-     * @Route("/tests/{tag}", name = "tests_by_tag")
-     */
-    public function showTestsByTag($tag)
-    {
-        return $this->showTests($tag);
-    }
-
-    /**
      * @Route("/tests", name = "tests")
      */
-    public function showTests(Request $request/*, $tag = null*/)
+    public function list(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -30,17 +22,20 @@ class TestsController extends Controller
         // only handles data on POST
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $searchString = $form->getData()['search'];
-            //dump($searchString);die();
-            $tests = $em->getRepository(Test::class)->findByTag($searchString);
-        } else {
+        } elseif (!$searchString = $request->query->get('tag')) {
             $tests = $em->getRepository(Test::class)->findAll();
+        }
+
+        if ($searchString){
+            $tests = $em->getRepository(Test::class)->findByNameOrTag($searchString);
         }
 
         return $this->render('tests/list.html.twig', [
             'tests' => $tests,
-            'wanted_tag' => null,
+            'searchValue' => $searchString ?? '',
             'searchForm' => $form->createView()
         ]);
     }

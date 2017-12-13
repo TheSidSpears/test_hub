@@ -4,14 +4,15 @@
 {% block body %}
     <h2>Test searching</h2>
     {{ form_start(searchForm) }}
-        {{ form_widget(searchForm.search) }}
+        {{ form_errors(searchForm.search) }}
+        {{ form_widget(searchForm.search, {
+            'attr': {
+                'value': searchValue
+            }
+        }) }}
 
         <button type="submit" class="btn btn-primary">Search</button>
     {{ form_end(searchForm) }}
-
-    {% if wanted_tag is not null %}
-        All tests with tag <span class="badge badge-success">{{ wanted_tag }}</span>
-    {% endif %}
 
     {% block testlist %}
         {{ parent() }}

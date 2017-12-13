@@ -15,14 +15,10 @@
         <div class="row">
             <div class="col">
                 {% for tag in test.tags %}
-                    {% if wanted_tag is defined and wanted_tag == tag.name %}
-                        <span class="badge badge-success">{{ tag.name }}</span>
-                    {% else %}
-                        <a href="{{ path('tests_by_tag', {'tag': tag.name}) }}"
-                           class="badge badge-info">
-                            {{ tag.name }}
-                        </a>
-                    {% endif %}
+                    <a href="{{ path('tests', {'tag': tag.name}) }}"
+                       class="badge badge-info">
+                        {{ tag.name }}
+                    </a>
                 {% endfor %}
             </div>
         </div>

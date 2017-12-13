@@ -24,12 +24,14 @@ class TestRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByTag($tag)
+    public function findByNameOrTag($searchString)
     {
         return $this->createQueryBuilder('test')
             ->innerJoin('test.tags','tag')
-            ->andWhere('tag.name = :name')
-            ->setParameter('name', $tag)
+            ->andWhere('tag.name LIKE :name')
+            ->setParameter('name', "%$searchString%")
+            ->orWhere('test.name LIKE :name')
+            ->setParameter('name', "%$searchString%")
             ->getQuery()
             ->execute();
     }

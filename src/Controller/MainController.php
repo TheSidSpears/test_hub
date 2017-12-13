@@ -13,7 +13,7 @@ class MainController extends Controller
     /**
      * @Route("/", name="main")
      */
-    public function homepageAction()
+    public function showIndex()
     {
         $em = $this->getDoctrine()->getManager();
 
