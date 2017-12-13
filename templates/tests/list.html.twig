@@ -2,6 +2,17 @@
 {% use '_testlist.html.twig' %}
 
 {% block body %}
+    <h2>Test searching</h2>
+    {{ form_start(searchForm) }}
+        {{ form_widget(searchForm.search) }}
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    {{ form_end(searchForm) }}
+
+    {% if wanted_tag is not null %}
+        All tests with tag <span class="badge badge-success">{{ wanted_tag }}</span>
+    {% endif %}
+
     {% block testlist %}
         {{ parent() }}
     {% endblock %}

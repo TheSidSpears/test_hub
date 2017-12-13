@@ -19,7 +19,6 @@ class TestRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('test')
             //todo per Month
             ->orderBy('test.successAttempts+test.failedAttempts', 'DESC')
-            //->orderBy('test.failedAttempts', 'DESC')
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();

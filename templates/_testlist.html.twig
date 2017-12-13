@@ -1,8 +1,5 @@
 {% block testlist %}
     {# todo page navigation #}
-    {% if wanted_tag is defined %}
-        All tests with tag <span class="badge badge-success">{{ wanted_tag }}</span>
-    {% endif %}
 
     {% for test in tests %}
         <div class="row">
