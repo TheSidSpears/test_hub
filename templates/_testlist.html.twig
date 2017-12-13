@@ -1,5 +1,9 @@
 {% block testlist %}
     {# todo page navigation #}
+    {% if wanted_tag is defined %}
+        All tests with tag <span class="badge badge-success">{{ wanted_tag }}</span>
+    {% endif %}
+
     {% for test in tests %}
         <div class="row">
             <div class="col">
@@ -14,7 +18,14 @@
         <div class="row">
             <div class="col">
                 {% for tag in test.tags %}
-                    <a href="#" class="badge badge-info">{{ tag.name }}</a>
+                    {% if wanted_tag is defined and wanted_tag == tag.name %}
+                        <span class="badge badge-success">{{ tag.name }}</span>
+                    {% else %}
+                        <a href="{{ path('tests_by_tag', {'tag': tag.name}) }}"
+                           class="badge badge-info">
+                            {{ tag.name }}
+                        </a>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

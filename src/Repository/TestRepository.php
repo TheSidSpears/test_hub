@@ -25,4 +25,13 @@ class TestRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByTag($tag)
+    {
+        return $this->createQueryBuilder('test')
+            ->innerJoin('test.tags','tag')
+            ->andWhere('tag.name = :name')
+            ->setParameter('name', $tag)
+            ->getQuery()
+            ->execute();
+    }
 }
