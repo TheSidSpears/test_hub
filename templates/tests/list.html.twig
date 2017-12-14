@@ -1,17 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'main/homepage.html.twig' %}
 {% use '_testlist.html.twig' %}
 
-{% block body %}
+{% block main_column %}
     <h2>Test searching</h2>
     {{ form_start(searchForm) }}
-        {{ form_errors(searchForm.search) }}
-        {{ form_widget(searchForm.search, {
-            'attr': {
-                'value': searchValue
-            }
-        }) }}
+    {{ form_errors(searchForm.search) }}
+    {{ form_widget(searchForm.search, {
+        'attr': {
+            'value': searchValue
+        }
+    }) }}
 
-        <button type="submit" class="btn btn-primary">Search</button>
+    <button type="submit" class="btn btn-primary">Search</button>
     {{ form_end(searchForm) }}
 
     {% block testlist %}
@@ -30,4 +30,8 @@
         </div>
     </div>
 
+{% endblock %}
+
+{% block page_info %}
+    <p>Search what you interested in and go test your skills. Firsts are most popular</p>
 {% endblock %}

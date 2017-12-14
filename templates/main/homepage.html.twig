@@ -1,29 +1,28 @@
 {% extends 'base.html.twig' %}
 {% use '_testlist.html.twig' %}
 
-{% block body %}
+{% block main_column %}
+    <h2>Chose test</h2>
+    {% block testlist %}
+        {{ parent() }}
+    {% endblock %}
     <div class="row">
-        <div class="col-9">
-            <h2>Chose test</h2>
-            {% block testlist %}
-                {{ parent() }}
-            {% endblock %}
-            <div class="row">
-                <div class="col mt-4">
-                    <a href="{{ path('tests') }}" class="btn btn-outline-primary">All tests</a>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <h2>About</h2>
-            <p>
-                TestHub - easy test manager. Test yourself or create new test for your purpose
-            </p>
-            <p>
-                Join TestHub!
-            </p>
-            <a class="d-block" href="">New test</a>
-            <a class="d-block" href="">About TestHub</a>
+        <div class="col mt-4">
+            <a href="{{ path('tests') }}" class="btn btn-outline-primary">All tests</a>
         </div>
     </div>
+{% endblock %}
+
+{% block right_column %}
+    {% block page_info %}
+        <h2>About</h2>
+        <p>
+            TestHub - easy test manager. Test yourself or create new test
+        </p>
+        <p>
+            Join TestHub!
+        </p>
+    {% endblock %}
+    <a class="d-block" href="">New test</a>
+    <a class="d-block" href="">About TestHub</a>
 {% endblock %}

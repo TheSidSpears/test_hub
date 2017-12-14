@@ -12,31 +12,42 @@
 </head>
 <body>
 <div class="container">
-    <header class="row">
-        <div class="col">
-            {% set title %}
-                <h1>TestHub</h1>
-            {% endset %}
+    {% block header %}
+        <header class="row">
+            <div class="col">
+                {% set title %}
+                    <h1>TestHub</h1>
+                {% endset %}
 
-            {% if app.request.attributes.get('_route') != 'main' %}
-                <a href="{{ path('main') }}">
+                {% if app.request.attributes.get('_route') != 'main' %}
+                    <a href="{{ path('main') }}">
+                        {{ title }}
+                    </a>
+                {% else %}
                     {{ title }}
-                </a>
-            {% else %}
-                {{ title }}
-            {% endif %}
-        </div>
-        <div class="col">
-            <div class="row float-right">
-                <div class="col ">
-                    <a class="btn btn-info" href="">Sign In</a>
-                    <a class="btn btn-info" href="">Sign Up</a>
+                {% endif %}
+            </div>
+            <div class="col">
+                <div class="row float-right">
+                    <div class="col ">
+                        <a class="btn btn-info" href="">Sign In</a>
+                        <a class="btn btn-info" href="">Sign Up</a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
+    {% endblock %}
 
-    {% block body %}{% endblock %}
+    {% block body %}
+        <div class="row">
+            <div class="col-9">
+                {% block main_column %}{% endblock %}
+            </div>
+            <div class="col">
+                {% block right_column %}{% endblock %}
+            </div>
+        </div>
+    {% endblock %}
 </div>
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
