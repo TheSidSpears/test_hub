@@ -17,4 +17,17 @@
     {% block testlist %}
         {{ parent() }}
     {% endblock %}
+
+    <div class="row">
+        <div class="col">
+            <div class="navigation">
+                {{ knp_pagination_render(tests) }}
+            </div>
+        </div>
+
+        <div class="col">
+            <span class="float-right">{{ tests.getTotalItemCount }} tests total</span>
+        </div>
+    </div>
+
 {% endblock %}

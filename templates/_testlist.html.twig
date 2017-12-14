@@ -1,6 +1,4 @@
 {% block testlist %}
-    {# todo page navigation #}
-
     {% for test in tests %}
         <div class="row">
             <div class="col">
@@ -9,7 +7,7 @@
                 </a>
             </div>
             <div class="col">
-                <div class="float-right">{{ test.successAttempts }} / {{ test.allAttempts }}</div>
+                <span class="float-right">{{ test.successAttempts }} / {{ test.allAttempts }}</span>
             </div>
         </div>
         <div class="row">
