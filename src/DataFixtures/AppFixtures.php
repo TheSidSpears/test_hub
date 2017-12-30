@@ -4,10 +4,9 @@
 namespace App\DataFixtures;
 
 
-use App\Entity\Tag;
-use App\Entity\Test;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Nelmio\Alice\Loader\NativeLoader;
 
 
 class AppFixtures extends Fixture
@@ -15,40 +14,25 @@ class AppFixtures extends Fixture
     //todo Learn how to use nelmio/alice 3 in Symfony 4 and use it
     public function load(ObjectManager $manager)
     {
-        $tags = [];
-        foreach ($this->tagNames() as $tagName) {
-            $tag = new Tag();
-            $tag->setName($tagName);
-            $manager->persist($tag);
+        $loader = new NativeLoader();
+        $objectSet = $loader->loadFile(
+            __DIR__.'/fixtures.yml',
+            [
+                'testName' => $this->testName(),
+                'testTag' => $this->testTag()
+            ]
+        );
 
-            $tags[] = $tag;
-        }
-
-        foreach ($this->testNames() as $testName) {
-            $test = new Test();
-            $test->setName($testName);
-
-            //todo it's creepy
-            for ($i =1; $i<=rand(1,20);$i++){
-                $test->incFailedAttempts();
-            }
-            for ($i =1; $i<=rand(1,20);$i++){
-                $test->incSuccessAttempts();
-            }
-
-            $test->addTag($tags[array_rand($tags)]);
-            $test->addTag($tags[array_rand($tags)]);
-            $test->addTag($tags[array_rand($tags)]);
-
-            $manager->persist($test);
+        foreach ($objectSet->getObjects() as $entity){
+            $manager->persist($entity);
         }
 
         $manager->flush();
     }
 
-    public function testNames()
+    public function testName()
     {
-        return [
+        $list = [
             'Electrodynamics',
             'Astronomy',
             'Geometry',
@@ -62,11 +46,12 @@ class AppFixtures extends Fixture
             'GIT basics',
             '101 programming'
         ];
+        return $list[array_rand($list)];
     }
 
-    public function tagNames()
+    public function testTag()
     {
-        return [
+        $list = [
             'easy',
             'hard',
             'excellent',
@@ -75,5 +60,6 @@ class AppFixtures extends Fixture
             'boring',
             'tedious',
         ];
+        return $list[array_rand($list)];
     }
 }

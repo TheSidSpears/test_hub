@@ -20,7 +20,8 @@ class MainController extends Controller
         $tests = $em->getRepository(Test::class)->findFivePopularPerMonth();
 
         return $this->render('main/homepage.html.twig', [
-            'tests' => $tests
+            'tests' => $tests,
+            'isMainRoute' => true
         ]);
     }
 }

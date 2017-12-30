@@ -19,12 +19,12 @@
                     <h1>TestHub</h1>
                 {% endset %}
 
-                {% if app.request.attributes.get('_route') != 'main' %}
+                {% if isMainRoute is defined  %}
+                    {{ title }}
+                {% else %}
                     <a href="{{ path('main') }}">
                         {{ title }}
                     </a>
-                {% else %}
-                    {{ title }}
                 {% endif %}
             </div>
             <div class="col">

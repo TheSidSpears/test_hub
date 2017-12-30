@@ -1,3 +1,22 @@
+App\Entity\Tag:
+    tag_{1..7}:
+        name: <{testTag}>
+
+App\Entity\User:
+    user_{1..10}:
+        fullName: <name()>
+
 App\Entity\Test:
-    test_{1..10}:
-        name (unique): <testNames()>
+    test_{1..20}:
+        name: <{testName}>
+        successAttempts: <numberBetween(10, 100)>
+        failedAttempts: <numberBetween(10, 100)>
+        timeLimit: <dateTime()>
+        description: <text(400)>
+        author: '@user_*'
+        tags: '3x @tag_*'
+
+App\Entity\Question:
+    question_{1..100}:
+        question: <text(30)>
+        test: '@test_*'

@@ -3,13 +3,10 @@
 
 {% block main_column %}
     <h2>Test searching</h2>
+    {#todo ajax autocompletion#}
     {{ form_start(searchForm) }}
-    {{ form_errors(searchForm.search) }}
-    {{ form_widget(searchForm.search, {
-        'attr': {
-            'value': searchValue
-        }
-    }) }}
+    {{ form_errors(searchForm.text) }}
+    {{ form_widget(searchForm.text) }}
 
     <button type="submit" class="btn btn-primary">Search</button>
     {{ form_end(searchForm) }}
@@ -26,7 +23,12 @@
         </div>
 
         <div class="col">
-            <span class="float-right">{{ tests.getTotalItemCount }} tests total</span>
+            {% if tests.getTotalItemCount == 1 %}
+                {% set testWithSuffix = 'test' %}
+            {% else %}
+                {% set testWithSuffix = 'tests' %}
+            {% endif %}
+            <span class="float-right">{{ tests.getTotalItemCount }} {{ testWithSuffix }} total</span>
         </div>
     </div>
 

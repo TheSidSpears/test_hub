@@ -26,3 +26,6 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    #Nelmio\Alice\Bridge\Symfony\NelmioAliceBundle: '@nelmio_alice'
+    App\Faker\Provider\TagProvider: '@nelmio_alice.faker.provider'

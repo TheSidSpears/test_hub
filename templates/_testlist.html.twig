@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col">
                 {% for tag in test.tags %}
-                    <a href="{{ path('tests', {'tag': tag.name}) }}"
+                    <a href="{{ path('tests_by_tag', {'name': tag.name}) }}"
                        class="badge badge-info">
                         {{ tag.name }}
                     </a>
