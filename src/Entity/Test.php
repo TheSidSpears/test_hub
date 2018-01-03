@@ -157,6 +157,7 @@ class Test
     {
         $this->description = $description;
     }
+
     /**
      * @return ArrayCollection|Tag[]
      */
@@ -180,7 +181,9 @@ class Test
     {
         $this->tags->removeElement($tag);
         // not needed for persistence, just keeping both sides in sync
-        $tag->removeTest($this);
+        if ($tag->getTests()->contains($this)) {
+            $tag->removeTest($this);
+        }
     }
 
     /**

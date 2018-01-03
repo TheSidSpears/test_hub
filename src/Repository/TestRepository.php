@@ -25,6 +25,7 @@ class TestRepository extends ServiceEntityRepository
         ->setMaxResults(5)
         ->execute();
 
+        //todo delete it, or replace
         return $this->createQueryBuilder('test')
             ->orderBy('test.successAttempts+test.failedAttempts', 'DESC')
             ->setMaxResults(5)

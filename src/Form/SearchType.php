@@ -25,13 +25,14 @@ class SearchType extends AbstractType
             ->setMethod('GET')
             ->setAction(
                 $this->urlGenerator->generate(
-                'search'
-            ))
-            ->add('text',null,[
-            'attr' => [
-                'placeholder' => 'Test name or tag...',
-            ]
-        ]);
+                    'search'
+                ))
+            ->add('text', null, [
+                'attr' => [
+                    'placeholder' => 'Test name or tag...',
+                ],
+                'data' => $options['data']['textValue'] ?? ''
+            ]);
     }
 
     public function getBlockPrefix()

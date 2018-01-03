@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Tag;
 use App\Entity\Test;
 use App\Form\SearchType;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,20 +18,21 @@ class TestController extends Controller
      */
     public function testsByTag(Request $request, PaginatorInterface $paginator, Tag $tag)
     {
-        $form = $this->createForm(SearchType::class);
-        $form->handleRequest($request);
-
-        $em = $this->getDoctrine()->getManager();
-        $tests = $em->getRepository(Test::class)->findByTag($tag);
-
-        $pagination = $paginator->paginate(
-            $tests,
-            $request->query->getInt('page', 1),
-            10
+//        todo. It's emulating form submitting. Bad
+//        cause of different logic of clicking tag (will find only tag)
+//        and typing it's name (will find occurrences of text in tags and tests)
+        $form = $this->createForm(
+            SearchType::class,
+            ['textValue' => $tag->getName()]
         );
 
+        $em = $this->getDoctrine()->getManager();
+
+        $tests = $em->getRepository(Test::class)->findByTag($tag);
+        $tests = $this->paginateTests($request, $paginator, $tests);
+
         return $this->render('tests/list.html.twig', [
-            'tests' => $pagination ?? $tests,
+            'tests' => $tests,
             'searchForm' => $form->createView(),
         ]);
     }
@@ -40,39 +42,29 @@ class TestController extends Controller
      */
     public function searchList(Request $request, PaginatorInterface $paginator)
     {
-        $em = $this->getDoctrine()->getManager();
-
         $form = $this->createForm(SearchType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $searchString = $form->getData()['text'];
         } else {
-            //ERROR
-            //$searchString = $request->query->get('tag');
+            $searchString = $request->query->get('text');
         }
 
         if ($searchString) {
-//            returns error: You cannot add children to a submitted form
-//            $form->add('search', null, [
-//                'data' => $searchString
-//            ]);
+            $em = $this->getDoctrine()->getManager();
+
             $tests = $em->getRepository(Test::class)->findByNameOrTagInclusions($searchString);
+            $tests = $this->paginateTests($request, $paginator, $tests);
+
+            return $this->render('tests/list.html.twig', [
+                'tests' => $tests,
+                'searchForm' => $form->createView(),
+            ]);
         } else {
-            //ERROR
-            //$tests = $em->getRepository(Test::class)->findAll();
+            //todo customize error pages
+            throw $this->createNotFoundException('There is nothing to search');
         }
-
-        $pagination = $paginator->paginate(
-            $tests,
-            $request->query->getInt('page', 1),
-            10
-        );
-
-        return $this->render('tests/list.html.twig', [
-            'tests' => $pagination ?? $tests,
-            'searchForm' => $form->createView(),
-        ]);
     }
 
     /**
@@ -84,15 +76,20 @@ class TestController extends Controller
         $em = $this->getDoctrine()->getManager();
         $tests = $em->getRepository(Test::class)->findAll();
 
-        $pagination = $paginator->paginate(
+        $tests = $this->paginateTests($request, $paginator, $tests);
+
+        return $this->render('tests/list.html.twig', [
+            'tests' => $tests,
+            'searchForm' => $form->createView(),
+        ]);
+    }
+
+    private function paginateTests(Request $request, PaginatorInterface $paginator, array $tests): PaginationInterface
+    {
+        return $paginator->paginate(
             $tests,
             $request->query->getInt('page', 1),
             10
         );
-
-        return $this->render('tests/list.html.twig', [
-            'tests' => $pagination ?? $tests,
-            'searchForm' => $form->createView(),
-        ]);
     }
 }

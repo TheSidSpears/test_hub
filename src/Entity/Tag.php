@@ -76,6 +76,8 @@ class Tag
     {
         $this->tests->removeElement($test);
         // not needed for persistence, just keeping both sides in sync
-        $test->removeTag($this);
+        if ($test->getTags()->contains($this)) {
+            $test->removeTag($this);
+        }
     }
 }

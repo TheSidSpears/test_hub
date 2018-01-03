@@ -18,7 +18,7 @@ final class TagProvider extends BaseProvider
         'tedious',
     ];
 
-    public function testTag()
+    public function testTag() //todo rename to verb
     {
         return self::randomElement(self::TAG);
     }
