@@ -116,16 +116,34 @@ class Test
         return $this->failedAttempts + $this->successAttempts;
     }
 
-    //todo access using method only from AppFixtures
+    /**
+     * Set number of failed attempts for instantly created item
+     * Used only for fixtures, tests, e.g
+     *
+     * Use incFailedAttempts in production
+     *
+     * @param $failedAttempts
+     */
     public function setFailedAttempts($failedAttempts)
     {
-        $this->failedAttempts = $failedAttempts;
+        if (is_null($this->failedAttempts)) {
+            $this->failedAttempts = $failedAttempts;
+        }
     }
 
-    //todo access using method only from AppFixtures
+    /**
+     * Set number of success attempts for instantly created item
+     * Used only for fixtures, tests, e.g
+     *
+     * Use incSuccessAttempts in production
+     *
+     * @param $successAttempts
+     */
     public function setSuccessAttempts($successAttempts)
     {
-        $this->successAttempts = $successAttempts;
+        if (is_null($this->successAttempts)) {
+            $this->successAttempts = $successAttempts;
+        }
     }
 
     public function getSlug()
@@ -146,6 +164,7 @@ class Test
     public function setTimeLimit($timeLimit)
     {
         $this->timeLimit = $timeLimit;
+
     }
 
     public function getDescription()

@@ -53,20 +53,6 @@ class TestEntityTest extends TestCase
         $test->setSlug($string);
         $this->assertSame($string, $test->getSlug());
 
-        $num1 = 4;
-        $num2 = 6;
-        $test->setFailedAttempts($num1);
-        $this->assertSame($num1, $test->getFailedAttempts());
-        $test->setSuccessAttempts($num2);
-        $this->assertSame($num2, $test->getSuccessAttempts());
-
-        $test->incSuccessAttempts();
-        $this->assertSame($num1++, $test->getFailedAttempts());
-        $test->incFailedAttempts();
-        $this->assertSame($num1++, $test->getFailedAttempts());
-
-        $this->assertSame($num1 + $num2, $test->getAllAttempts());
-
         $test->setTimeLimit(new \DateTime());
         $this->assertInstanceOf(\DateTime::class, $test->getTimeLimit());
 
@@ -101,5 +87,33 @@ class TestEntityTest extends TestCase
         $author = new User();
         $test->setAuthor($author);
         $this->assertInstanceOf(User::class, $test->getAuthor());
+    }
+
+    public function testSetAttempts()
+    {
+        $test = new Test();
+
+        $num1 = 55;
+        $num2 = 45;
+
+        $test->setSuccessAttempts($num1);
+        $test->setFailedAttempts($num2);
+
+        $this->assertSame($num1, $test->getSuccessAttempts(), 'setSuccessAttempts must work for newly created Test::class');
+        $this->assertSame($num2, $test->getFailedAttempts(), 'setFailedAttempts must work for newly created Test::class');
+
+        $this->assertSame($num1 + $num2, $test->getAllAttempts());
+
+        $test->setSuccessAttempts($num1 + 20);
+        $test->setFailedAttempts($num2 + 20);
+
+        $this->assertSame($num1, $test->getSuccessAttempts(), 'setSuccessAttempts must change value only if value is null (It\'s null for new Test() )');
+        $this->assertSame($num2, $test->getFailedAttempts(), 'setFailedAttempts must change value only if value is null (It\'s null for new Test() )');
+
+        $test->incSuccessAttempts();
+        $test->incFailedAttempts();
+
+        $this->assertSame(++$num1, $test->getSuccessAttempts());
+        $this->assertSame(++$num2, $test->getFailedAttempts());
     }
 }
