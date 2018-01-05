@@ -80,4 +80,9 @@ class User
         $this->setFirstName($firstName);
         $this->setLastName($lastName);
     }
+
+    public function __toString()
+    {
+        return $this->getFullName();
+    }
 }

@@ -15,15 +15,15 @@
     {% block header %}
         <header class="row">
             <div class="col">
-                {% set title %}
+                {% set siteName %}
                     <h1>TestHub</h1>
                 {% endset %}
 
-                {% if isMainRoute is defined  %}
-                    {{ title }}
+                {% if isMainRoute is defined and isMainRoute == true %}
+                    {{ siteName }}
                 {% else %}
                     <a href="{{ path('main') }}">
-                        {{ title }}
+                        {{ siteName }}
                     </a>
                 {% endif %}
             </div>
@@ -41,7 +41,11 @@
     {% block body %}
         <div class="row">
             <div class="col-9">
-                {% block main_column %}{% endblock %}
+                {% block main_column %}
+                    <h2>
+                        {{ block('title') }}
+                    </h2>
+                {% endblock %}
             </div>
             <div class="col">
                 {% block right_column %}{% endblock %}

@@ -30,8 +30,7 @@ class SearchType extends AbstractType
             ->add('text', null, [
                 'attr' => [
                     'placeholder' => 'Test name or tag...',
-                ],
-                'data' => $options['data']['textValue'] ?? ''
+                ]
             ]);
     }
 

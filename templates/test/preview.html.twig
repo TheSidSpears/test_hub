@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+    {{ test.name }}
+{% endblock %}
+
+
+{% block main_column %}
+    {{ parent() }}
+    <p>{{ test.description }}</p>
+
+    <p>Questions: {{ test.questions | length }}</p>
+    <p>Max point: {# todo make this field in entity#}</p>
+    <p>Time: {{ test.timeLimit|date('Y-m-d') }}</p>
+    <p>Passed by {{ test.successAttempts }} out of {{ test.allAttempts }}</p>
+    <p>Author: {{ test.author }}</p>
+
+    <a class="btn btn-outline-primary" href="">Start test</a>
+{% endblock %}
+
+{% block right_column %}
+    {# todo register info #}
+{% endblock %}

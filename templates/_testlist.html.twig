@@ -2,7 +2,9 @@
     {% for test in tests %}
         <div class="row">
             <div class="col">
-                <a href="">
+                <a href="{{ path('test_preview', {
+                    'slug': test.slug
+                }) }}">
                     <h4>{{ test.name }}</h4>
                 </a>
             </div>
@@ -13,7 +15,9 @@
         <div class="row">
             <div class="col">
                 {% for tag in test.tags %}
-                    <a href="{{ path('tests_by_tag', {'name': tag.name}) }}"
+                    <a href="{{ path('tests_by_tag', {
+                        'name': tag.name
+                    }) }}"
                        class="badge badge-info">
                         {{ tag.name }}
                     </a>

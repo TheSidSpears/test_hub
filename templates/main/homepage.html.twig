@@ -2,7 +2,12 @@
 {% use '_testlist.html.twig' %}
 
 {% block main_column %}
-    <h2>Chose test</h2>
+    <h2>
+        {% block title %}
+            Chose test
+        {% endblock %}
+    </h2>
+
     {% block testlist %}
         {{ parent() }}
     {% endblock %}

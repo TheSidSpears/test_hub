@@ -18,22 +18,17 @@ class TestController extends Controller
      */
     public function testsByTag(Request $request, PaginatorInterface $paginator, Tag $tag)
     {
-//        todo. It's emulating form submitting. Bad
-//        cause of different logic of clicking tag (will find only tag)
-//        and typing it's name (will find occurrences of text in tags and tests)
-        $form = $this->createForm(
-            SearchType::class,
-            ['textValue' => $tag->getName()]
-        );
-
         $em = $this->getDoctrine()->getManager();
 
         $tests = $em->getRepository(Test::class)->findByTag($tag);
         $tests = $this->paginateTests($request, $paginator, $tests);
 
-        return $this->render('tests/list.html.twig', [
+        return $this->render('tests/by_tag_list.html.twig', [
             'tests' => $tests,
-            'searchForm' => $form->createView(),
+            'tag' => $tag,
+            'searchForm' => $this
+                ->createForm(SearchType::class)
+                ->createView(),
         ]);
     }
 
@@ -57,7 +52,7 @@ class TestController extends Controller
             $tests = $em->getRepository(Test::class)->findByNameOrTagInclusions($searchString);
             $tests = $this->paginateTests($request, $paginator, $tests);
 
-            return $this->render('tests/list.html.twig', [
+            return $this->render('tests/search_list.html.twig', [
                 'tests' => $tests,
                 'searchForm' => $form->createView(),
             ]);
@@ -91,5 +86,15 @@ class TestController extends Controller
             $request->query->getInt('page', 1),
             10
         );
+    }
+
+    /**
+     * @Route("/test/{slug}", name = "test_preview")
+     */
+    public function testPreview(Request $request, Test $test)
+    {
+        return $this->render('test/preview.html.twig', [
+            'test' => $test
+        ]);
     }
 }
