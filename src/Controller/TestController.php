@@ -89,6 +89,15 @@ class TestController extends Controller
     }
 
     /**
+     * @Route("/test/{slug}/question", name = "test_question")
+     */
+    public function testQuestion(Request $request, Test $test)
+    {
+//        return
+        return $this->render('test/question.html.twig');
+    }
+
+    /**
      * @Route("/test/{slug}", name = "test_preview")
      */
     public function testPreview(Request $request, Test $test)
@@ -97,4 +106,6 @@ class TestController extends Controller
             'test' => $test
         ]);
     }
+
+
 }

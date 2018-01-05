@@ -26,7 +26,7 @@ class Tag
      * )
      * @ORM\Column(type="string")
      */
-    private $name;
+    private $name; //todo unique
 
     /**
      * @ORM\ManyToMany(targetEntity="Test", mappedBy="tags")

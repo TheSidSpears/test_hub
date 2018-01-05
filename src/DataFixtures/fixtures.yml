@@ -1,6 +1,6 @@
 App\Entity\Tag:
-    tag_{1..7}:
-        name: <{testTag}>
+    tag_{1..10}:
+        name: <word()>
 
 App\Entity\User:
     user_{1..10}:
@@ -8,7 +8,7 @@ App\Entity\User:
 
 App\Entity\Test:
     test_{1..20}:
-        name: <{testName}>
+        name: <city()>
         successAttempts: <numberBetween(10, 100)>
         failedAttempts: <numberBetween(10, 100)>
         timeLimit: <dateTime()>

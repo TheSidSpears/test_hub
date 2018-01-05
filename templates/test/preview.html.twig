@@ -16,7 +16,10 @@
     <p>Passed by {{ test.successAttempts }} out of {{ test.allAttempts }}</p>
     <p>Author: {{ test.author }}</p>
 
-    <a class="btn btn-outline-primary" href="">Start test</a>
+    <a class="btn btn-outline-primary" href="{{ path('test_question', {
+        'slug': test.slug}) }}">
+        Start test
+    </a>
 {% endblock %}
 
 {% block right_column %}
