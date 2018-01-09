@@ -22,35 +22,35 @@ class TestRepository extends ServiceEntityRepository
             SELECT t FROM ' . Test::class . ' t
             ORDER BY t.successAttempts+t.failedAttempts DESC
         ')
-        ->setMaxResults(5)
-        ->execute();
-
-        //todo delete it, or replace
-        return $this->createQueryBuilder('test')
-            ->orderBy('test.successAttempts+test.failedAttempts', 'DESC')
             ->setMaxResults(5)
-            ->getQuery()
-            ->getResult();
+            ->execute();
     }
 
-    public function findByTag(Tag $tag){
-        return $this->createQueryBuilder('test')
-            ->innerJoin('test.tags', 'tag')
-            ->andWhere('tag = :tag')
-            ->setParameter('tag', $tag)
-            ->getQuery()
-            ->execute();
+    public function findByTag(Tag $tag)
+    {
+        return $this->_em->createQuery('
+            SELECT test FROM ' . Test::class . ' test
+            INNER JOIN test.tags tag
+            WHERE tag = :tag
+        ')
+            ->setParameters([
+                'tag' => $tag
+            ])
+            ->getResult();
     }
 
     public function findByNameOrTagInclusions($searchString)
     {
-        return $this->createQueryBuilder('test')
-            ->innerJoin('test.tags', 'tag')
-            ->andWhere('tag.name LIKE :name')
-            ->setParameter('name', "%$searchString%")
-            ->orWhere('test.name LIKE :name')
-            ->setParameter('name', "%$searchString%")
-            ->getQuery()
-            ->execute();
+        return $this->_em->createQuery('
+            SELECT test,tag FROM ' . Test::class . ' test
+            INNER JOIN test.tags tag
+            WHERE tag.name LIKE :tagName
+            OR test.name LIKE :testName
+        ')
+            ->setParameters([
+                'tagName' => "%$searchString%",
+                'testName' => "%$searchString%"
+            ])
+            ->getResult();
     }
 }
