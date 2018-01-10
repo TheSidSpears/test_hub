@@ -13,107 +13,112 @@ use App\Entity\Test;
 class TestEntityTest extends TestCase
 {
     /** @test */
-    public function testObjectCreation()
+    public function testZeroQuestionsForNewTest()
     {
         $test = new Test();
-
-        $this->assertNull($test->getId());
-
-        $this->assertNull($test->getName());
-        $this->assertNull($test->getAuthor());
-        $this->assertNull($test->getDescription());
-
-        $this->assertNull($test->getSlug());
-        $this->assertNull($test->getTimeLimit());
-
-        $this->assertSame(0, $test->getAllAttempts());
-        $this->assertNull($test->getFailedAttempts());
-        $this->assertNull($test->getSuccessAttempts());
-
-        $this->assertInstanceOf(ArrayCollection::class, $test->getQuestions());
         $this->assertCount(0, $test->getQuestions());
+    }
 
-        $this->assertInstanceOf(ArrayCollection::class, $test->getTags());
+    public function testZeroTagsForNewTest()
+    {
+        $test = new Test();
         $this->assertCount(0, $test->getTags());
     }
 
-    /** @test */
-    public function testObjectEdit()
+
+    public function testCanAddQuestionForTest()
     {
         $test = new Test();
+        $question1 = new Question();
 
-        $string = 'String';
+        $test->addQuestion($question1);
+        $questions = $test->getQuestions();
 
-        $test->setName($string);
-        $this->assertSame($string, $test->getName());
-
-        $test->setDescription($string);
-        $this->assertSame($string, $test->getDescription());
-
-        $test->setSlug($string);
-        $this->assertSame($string, $test->getSlug());
-
-        $test->setTimeLimit(new \DateTime());
-        $this->assertInstanceOf(\DateTime::class, $test->getTimeLimit());
-
-
-        $question = new Question();
-        $test->addQuestion($question);
-
-        $this->assertInstanceOf(ArrayCollection::class, $test->getQuestions());
-        $this->assertContainsOnlyInstancesOf(Question::class, $test->getQuestions());
-        $this->assertCount(1, $test->getQuestions());
-        $this->assertArraySubset([$question], $test->getQuestions());
-
-        $test->removeQuestion($question);
-        $this->assertCount(0, $test->getQuestions());
-
-
-        $tag = new Tag();
-        $test->addTag($tag);
-
-        $this->assertInstanceOf(ArrayCollection::class, $test->getTags());
-        $this->assertContainsOnlyInstancesOf(Tag::class, $test->getTags());
-        $this->assertContainsOnlyInstancesOf(Test::class, $tag->getTests());
-        $this->assertCount(1, $test->getTags());
-        $this->assertCount(1, $tag->getTests());
-        $this->assertArraySubset([$tag], $test->getTags());
-
-        $test->removeTag($tag);
-        $this->assertCount(0, $test->getTags());
-        $this->assertCount(0, $tag->getTests());
-
-
-        $author = new User();
-        $test->setAuthor($author);
-        $this->assertInstanceOf(User::class, $test->getAuthor());
+        $this->assertTrue($questions->contains($question1));
     }
 
-    public function testSetAttempts()
+    public function testCanAddTagForTest()
     {
         $test = new Test();
+        $tag1 = new Tag();
 
+        $test->addTag($tag1);
+        $tags = $test->getTags();
+
+        $this->assertTrue($tags->contains($tag1));
+    }
+
+    public function testCanRemoveQuestionForTest()
+    {
+        //todo
+    }
+
+    public function testCanRemoveTagForTest()
+    {
+        //todo
+    }
+
+
+    // Attempts
+
+    public function testSuccessAttemptsIsZeroForNewTest()
+    {
+        $test = new Test();
+        $this->assertSame(0, $test->getSuccessAttempts());
+    }
+
+    public function testFailedAttemptsIsZeroForNewTest()
+    {
+        $test = new Test();
+        $this->assertSame(0, $test->getFailedAttempts());
+    }
+
+    public function testCanSetSuccessAttemptsForNewTest()
+    {
+        $test = new Test();
+        $test->setSuccessAttempts(66);
+        $this->assertSame(66, $test->getSuccessAttempts());
+    }
+
+    public function testCanNotSetSuccessAttemptsTwice()
+    {
+        $test = new Test();
+        $test->setSuccessAttempts(66);
+        $test->setSuccessAttempts(100);
+        $this->assertSame(66, $test->getSuccessAttempts());
+    }
+
+    public function testCanSetFailedAttemptsForNewTest()
+    {
+        $test = new Test();
+        $test->setFailedAttempts(66);
+        $this->assertSame(66, $test->getFailedAttempts());
+    }
+
+    public function testCanNotSetFailedAttemptsTwice()
+    {
+        $test = new Test();
+        $test->setFailedAttempts(66);
+        $test->setFailedAttempts(100);
+        $this->assertSame(66, $test->getFailedAttempts());
+    }
+
+    public function testAllAttemptsIncreasedWithSuccessAndFailed()
+    {
+        $test = new Test();
         $num1 = 55;
         $num2 = 45;
 
         $test->setSuccessAttempts($num1);
         $test->setFailedAttempts($num2);
-
-        $this->assertSame($num1, $test->getSuccessAttempts(), 'setSuccessAttempts must work for newly created Test::class');
-        $this->assertSame($num2, $test->getFailedAttempts(), 'setFailedAttempts must work for newly created Test::class');
-
         $this->assertSame($num1 + $num2, $test->getAllAttempts());
-
-        $test->setSuccessAttempts($num1 + 20);
-        $test->setFailedAttempts($num2 + 20);
-
-        $this->assertSame($num1, $test->getSuccessAttempts(), 'setSuccessAttempts must change value only if value is null (It\'s null for new Test() )');
-        $this->assertSame($num2, $test->getFailedAttempts(), 'setFailedAttempts must change value only if value is null (It\'s null for new Test() )');
 
         $test->incSuccessAttempts();
         $test->incFailedAttempts();
 
-        $this->assertSame(++$num1, $test->getSuccessAttempts());
-        $this->assertSame(++$num2, $test->getFailedAttempts());
+        $this->assertSame($num1 + 1, $test->getSuccessAttempts());
+        $this->assertSame($num2 + 1, $test->getFailedAttempts());
+        $this->assertSame(($num1 + 1) + ($num2 + 1), $test->getAllAttempts());
+
     }
 }

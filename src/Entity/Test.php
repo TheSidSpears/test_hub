@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -35,12 +36,12 @@ class Test
     /**
      * @ORM\Column(type="integer")
      */
-    private $failedAttempts;
+    private $failedAttempts = 0;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $successAttempts;
+    private $successAttempts = 0;
 
     /**
      * @ORM\Column(type="time")
@@ -76,22 +77,22 @@ class Test
         $this->questions = new ArrayCollection();
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
 
-    public function getFailedAttempts()
+    public function getFailedAttempts(): int
     {
         return $this->failedAttempts;
     }
@@ -101,7 +102,7 @@ class Test
         ++$this->failedAttempts;
     }
 
-    public function getSuccessAttempts()
+    public function getSuccessAttempts(): int
     {
         return $this->successAttempts;
     }
@@ -111,7 +112,7 @@ class Test
         ++$this->successAttempts;
     }
 
-    public function getAllAttempts()
+    public function getAllAttempts(): int
     {
         return $this->failedAttempts + $this->successAttempts;
     }
@@ -124,9 +125,9 @@ class Test
      *
      * @param $failedAttempts
      */
-    public function setFailedAttempts($failedAttempts)
+    public function setFailedAttempts(int $failedAttempts)
     {
-        if (is_null($this->failedAttempts)) {
+        if ($this->failedAttempts == 0) {
             $this->failedAttempts = $failedAttempts;
         }
     }
@@ -139,40 +140,40 @@ class Test
      *
      * @param $successAttempts
      */
-    public function setSuccessAttempts($successAttempts)
+    public function setSuccessAttempts(int $successAttempts)
     {
-        if (is_null($this->successAttempts)) {
+        if ($this->successAttempts == 0) {
             $this->successAttempts = $successAttempts;
         }
     }
 
-    public function getSlug()
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    public function setSlug($slug)
+    public function setSlug(string $slug)
     {
         $this->slug = $slug;
     }
 
-    public function getTimeLimit()
+    public function getTimeLimit(): \DateTime
     {
         return $this->timeLimit;
     }
 
-    public function setTimeLimit($timeLimit)
+    public function setTimeLimit(\DateTime $timeLimit)
     {
         $this->timeLimit = $timeLimit;
 
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription($description)
+    public function setDescription(string $description)
     {
         $this->description = $description;
     }
@@ -180,7 +181,7 @@ class Test
     /**
      * @return ArrayCollection|Tag[]
      */
-    public function getTags()
+    public function getTags(): Collection
     {
         return $this->tags;
     }
@@ -208,7 +209,7 @@ class Test
     /**
      * @return ArrayCollection|Question[]
      */
-    public function getQuestions()
+    public function getQuestions(): Collection
     {
         return $this->questions;
     }
@@ -231,7 +232,7 @@ class Test
         $question->setTest(null);
     }
 
-    public function getAuthor()
+    public function getAuthor(): User
     {
         return $this->author;
     }
