@@ -10,9 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MainController extends Controller
 {
-    /**
-     * @Route("/", name="main")
-     */
     public function showIndex()
     {
         $em = $this->getDoctrine()->getManager();
