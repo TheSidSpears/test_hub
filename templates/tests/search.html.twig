@@ -1,0 +1,14 @@
+{% extends 'tests/list.html.twig' %}
+
+{% block main_column %}
+    <h2>
+        {% block title %}
+            Search
+        {% endblock %}
+    </h2>
+
+    {% block search_form %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
+

@@ -39,10 +39,10 @@ class TestRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findByNameOrTagInclusions($searchString)
+    public function searchByKeyword($searchString)
     {
         return $this->_em->createQuery('
-            SELECT test,tag FROM ' . Test::class . ' test
+            SELECT test FROM ' . Test::class . ' test
             INNER JOIN test.tags tag
             WHERE tag.name LIKE :tagName
             OR test.name LIKE :testName
@@ -52,5 +52,10 @@ class TestRepository extends ServiceEntityRepository
                 'testName' => "%$searchString%"
             ])
             ->getResult();
+    }
+
+    public function createFindAllQuery()
+    {
+        return $this->_em->createQuery('SELECT t FROM ' . Test::class . ' t');
     }
 }

@@ -13,16 +13,9 @@ class TagRepository extends ServiceEntityRepository
         parent::__construct($registry, Tag::class);
     }
 
-    /*
-    public function findBySomething($value)
+    public function createFindAllQuery()
     {
-        return $this->createQueryBuilder('t')
-            ->where('t.something = :value')->setParameter('value', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        // todo Sort by popular
+        return $this->_em->createQuery('SELECT t FROM ' . Tag::class . ' t');
     }
-    */
 }

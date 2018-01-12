@@ -4,6 +4,7 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SearchType extends AbstractType
@@ -34,6 +35,11 @@ class SearchType extends AbstractType
             ]);
     }
 
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault('allow_extra_fields', true);
+    }
+    
     public function getBlockPrefix()
     {
         return null;

@@ -7,7 +7,7 @@ App\Entity\User:
         fullName: <name()>
 
 App\Entity\Test:
-    test_{1..20}:
+    test_{1..100}:
         name: <city()>
         successAttempts: <numberBetween(10, 100)>
         failedAttempts: <numberBetween(10, 100)>
